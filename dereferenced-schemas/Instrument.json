@@ -3,7 +3,28 @@
     "type": "object",
     "title": "Instrument",
     "description": "This form is for describing an instrument and components/parts of an instrument. Instruments and parts are linked by their identifier.",
+    "required": [
+        "@id",
+        "@context",
+        "@type"
+    ],
     "properties": {
+        "@context": {
+            "type": "array",
+            "default": [
+                "http://schema.org/",
+                {
+                    "mat": "https://pages.nist.gov/material-schema/"
+                }
+            ]
+        },
+        "@type": {
+            "type": "array",
+            "default": [
+                "CreativeWork",
+                "mat:Instrument"
+            ]
+        },
         "@id": {
             "type": "string",
             "cordra": {
@@ -31,10 +52,7 @@
                         "title": "Identifier Value",
                         "type": "string"
                     }
-                },
-                "required": [
-                    "@type"
-                ]
+                }
             }
         },
         "name": {
@@ -60,19 +78,29 @@
             "type": "string",
             "title": "URL"
         },
-        "about": {
+        "image": {
             "type": "array",
-            "title": "Subjects",
-            "description": "This is for controlled vocabulary terms.",
+            "title": "Image URLs",
             "uniqueItems": true,
             "items": {
                 "type": "string",
-                "title": "Subject",
+                "title": "Image URL"
+            }
+        },
+        "about": {
+            "type": "array",
+            "title": "About",
+            "description": "This is for linking controlled vocabulary terms and parent projects.",
+            "uniqueItems": true,
+            "items": {
+                "type": "string",
+                "title": "Subject/Project",
                 "cordra": {
                     "type": {
                         "handleReference": {
                             "types": [
-                                "DefinedTerm"
+                                "DefinedTerm",
+                                "Project"
                             ]
                         }
                     }
@@ -225,26 +253,6 @@
                 }
             }
         },
-        "producer": {
-            "type": "array",
-            "title": "Producers",
-            "uniqueItems": true,
-            "items": {
-                "type": "string",
-                "title": "Producer",
-                "cordra": {
-                    "type": {
-                        "handleReference": {
-                            "types": [
-                                "User",
-                                "Person",
-                                "Organization"
-                            ]
-                        }
-                    }
-                }
-            }
-        },
         "provider": {
             "type": "array",
             "title": "Providers",
@@ -309,6 +317,15 @@
             "type": "string",
             "title": "License"
         },
+        "thumbnailUrl": {
+            "type": "array",
+            "title": "Thumbnail URLs",
+            "uniqueItems": true,
+            "items": {
+                "type": "string",
+                "title": "Thumbnail URL"
+            }
+        },
         "dateCreated": {
             "title": "Date Created",
             "type": "string"
@@ -338,14 +355,6 @@
                     }
                 }
             }
-        },
-        "@context": {
-            "type": "string",
-            "default": "http://schema.org/"
-        },
-        "@type": {
-            "type": "string",
-            "default": "CreativeWork"
         },
         "isPartOf": {
             "title": "Has Parent Instruments",
@@ -380,52 +389,54 @@
             }
         },
         "isBasedOn": {
-            "title": "Product",
-            "type": "object",
-            "properties": {
-                "@type": {
-                    "type": "string",
-                    "default": "Product"
-                },
-                "additionalProperty": {
-                    "title": "Additional Properties",
-                    "type": "array",
-                    "items": {
-                        "title": "Additional Property",
-                        "type": "object",
-                        "properties": {
-                            "@type": {
-                                "type": "string",
-                                "default": "PropertyValue"
-                            },
-                            "propertyID": {
-                                "title": "Property Name",
-                                "type": "string"
-                            },
-                            "value": {
-                                "title": "Property Value",
-                                "type": "string"
-                            },
-                            "unitText": {
-                                "title": "Property Units",
-                                "type": "string"
+            "title": "Is Based On",
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+                "title": "Product",
+                "type": "object",
+                "properties": {
+                    "@type": {
+                        "type": "string",
+                        "default": "Product"
+                    },
+                    "additionalProperty": {
+                        "title": "Additional Properties",
+                        "type": "array",
+                        "items": {
+                            "title": "Additional Property",
+                            "type": "object",
+                            "properties": {
+                                "@type": {
+                                    "type": "string",
+                                    "default": "PropertyValue"
+                                },
+                                "propertyID": {
+                                    "title": "Property Name",
+                                    "type": "string"
+                                },
+                                "value": {
+                                    "title": "Property Value",
+                                    "type": "string"
+                                },
+                                "unitText": {
+                                    "title": "Property Units",
+                                    "type": "string"
+                                }
                             }
                         }
+                    },
+                    "manufacturer": {
+                        "type": "string"
+                    },
+                    "brand": {
+                        "type": "string"
+                    },
+                    "model": {
+                        "type": "string"
                     }
-                },
-                "manufacturer": {
-                    "type": "string"
-                },
-                "brand": {
-                    "type": "string"
-                },
-                "model": {
-                    "type": "string"
                 }
             }
         }
-    },
-    "required": [
-        "@type"
-    ]
+    }
 }

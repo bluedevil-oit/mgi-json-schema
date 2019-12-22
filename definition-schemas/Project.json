@@ -5,14 +5,6 @@
     "definitions": {"Project": {
         "type": "object",
         "properties": {
-            "@context": {
-                "type": "string",
-                "default": "http://schema.org/"
-            },
-            "@type": {
-                "type": "string",
-                "default": "Project"
-            },
             "about": {
                 "type": "array",
                 "title": "Subjects",
@@ -49,7 +41,10 @@
                 "items": {
                     "type": "string",
                     "title": "Contact Point",
-                    "cordra": {"type": {"handleReference": {"types": ["Person", "User"]}}}
+                    "cordra": {"type": {"handleReference": {"types": [
+                        "Person",
+                        "User"
+                    ]}}}
                 }
             },
             "email": {
@@ -100,25 +95,7 @@
                     "cordra": {"type": {"handleReference": {"types": ["Organization"]}}}
                 }
             },
-            "subjectOf": {
-                "type": "array",
-                "title": "Project Assets",
-                "uniqueItems": true,
-                "items": {
-                    "type": "string",
-                    "title": "Project Asset",
-                    "cordra": {"type": {"handleReference": {"types": [
-                        "Collection",
-                        "File",
-                        "TabularDataPackage",
-                        "MaterialProperty",
-                        "Material",
-                        "Instrument",
-                        "Dataset"
-                    ]}}}
-                }
-            }
-        },
-        "required": ["@type"]
+            "subjectOf": {"$ref": "subjectOf.json#/definitions/subjectOf"}
+        }
     }}
 }

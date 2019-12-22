@@ -5,15 +5,7 @@
     "definitions": {"Collection": {
         "type": "object",
         "properties": {
-            "@context": {
-                "type": "string",
-                "default": "http://schema.org/"
-            },
-            "@type": {
-                "type": "string",
-                "default": "Collection"
-            },
-            "subjectOf": {"$ref": "subjectOfProject.json#/definitions/subjectOfProject"},
+            "subjectOf": {"$ref": "subjectOf.json#/definitions/subjectOf"},
             "hasPart": {
                 "type": "array",
                 "title": "Has Collection Items",
@@ -43,7 +35,6 @@
                     "cordra": {"type": {"handleReference": {"types": ["Collection"]}}}
                 }
             }
-        },
-        "required": ["@type"]
+        }
     }}
 }

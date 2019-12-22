@@ -3,7 +3,20 @@
     "type": "object",
     "title": "Person",
     "description": "This schema is for describing a Person in Cordra.",
+    "required": [
+        "@id",
+        "@context",
+        "@type"
+    ],
     "properties": {
+        "@context": {
+            "type": "string",
+            "default": "http://schema.org/"
+        },
+        "@type": {
+            "type": "string",
+            "default": "Person"
+        },
         "@id": {
             "type": "string",
             "cordra": {
@@ -31,10 +44,7 @@
                         "title": "Identifier Value",
                         "type": "string"
                     }
-                },
-                "required": [
-                    "@type"
-                ]
+                }
             }
         },
         "name": {
@@ -60,13 +70,14 @@
             "type": "string",
             "title": "URL"
         },
-        "@context": {
-            "type": "string",
-            "default": "http://schema.org/"
-        },
-        "@type": {
-            "type": "string",
-            "default": "Person"
+        "image": {
+            "type": "array",
+            "title": "Image URLs",
+            "uniqueItems": true,
+            "items": {
+                "type": "string",
+                "title": "Image URL"
+            }
         },
         "familyName": {
             "type": "string",
@@ -85,8 +96,7 @@
             "title": "E-Mail Address",
             "cordra": {
                 "preview": {
-                    "showInPreview": true,
-                    "isPrimary": true
+                    "showInPreview": true
                 }
             }
         },
@@ -117,8 +127,5 @@
                 }
             }
         }
-    },
-    "required": [
-        "@type"
-    ]
+    }
 }

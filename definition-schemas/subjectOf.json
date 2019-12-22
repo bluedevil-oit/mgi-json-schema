@@ -1,0 +1,22 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "title": "subjectOf",
+    "definitions": {"subjectOf": {
+        "type": "array",
+        "title": "Linked Materials, Datasets, etc.",
+        "uniqueItems": true,
+        "items": {
+            "type": "string",
+            "title": "Linked Material, Dataset, etc.",
+            "cordra": {"type": {"handleReference": {"types": [
+                "File",
+                "TabularDataPackage",
+                "MaterialProperty",
+                "Dataset",
+                "Collection",
+                "Material"
+            ]}}}
+        }
+    }}
+}

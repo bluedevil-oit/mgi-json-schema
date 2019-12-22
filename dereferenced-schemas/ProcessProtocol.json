@@ -3,7 +3,371 @@
     "type": "object",
     "title": "ProcessProtocol",
     "description": "This schema is for describing an experimental protocol for creating and processing a material.",
+    "required": [
+        "@id",
+        "@context",
+        "@type"
+    ],
+    "definitions": {
+        "QuantitativeValue": {
+            "type": "object",
+            "properties": {
+                "@type": {
+                    "type": "string",
+                    "default": "QuantitativeValue"
+                },
+                "name": {
+                    "type": "string",
+                    "title": "Name"
+                },
+                "value": {
+                    "title": "Value",
+                    "type": "number"
+                },
+                "unitText": {
+                    "title": "Unit Text",
+                    "type": "string"
+                },
+                "unitCode": {
+                    "title": "Unit Code",
+                    "type": "string"
+                }
+            }
+        },
+        "measurementTechnique": {
+            "type": "array",
+            "title": "Synthesis/Measurement Techniques",
+            "uniqueItems": true,
+            "items": {
+                "type": "string",
+                "title": "Synthesis/Measurement Technique",
+                "cordra": {
+                    "type": {
+                        "handleReference": {
+                            "types": [
+                                "DefinedTerm",
+                                "Instrument",
+                                "SoftwareApplication",
+                                "SoftwareSourceCode"
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "variableMeasured": {
+            "type": "object",
+            "properties": {
+                "@type": {
+                    "type": "string",
+                    "default": "PropertyValue"
+                },
+                "name": {
+                    "type": "string",
+                    "title": "Name"
+                },
+                "propertyID": {
+                    "title": "Property IDs",
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                        "title": "Property ID",
+                        "type": "string",
+                        "cordra": {
+                            "type": {
+                                "handleReference": {
+                                    "types": [
+                                        "DefinedTerm"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "value": {
+                    "title": "Value",
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "unitText": {
+                    "title": "Unit Text",
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "unitCode": {
+                    "title": "Unit Code",
+                    "type": "string"
+                },
+                "valueReference": {
+                    "type": "array",
+                    "title": "Reference Values",
+                    "uniqueItems": true,
+                    "items": {
+                        "type": "object",
+                        "title": "Reference Value",
+                        "properties": {
+                            "@type": {
+                                "type": "string",
+                                "default": "PropertyValue"
+                            },
+                            "name": {
+                                "type": "string",
+                                "title": "Name"
+                            },
+                            "propertyID": {
+                                "title": "Property ID/Name",
+                                "type": "string",
+                                "cordra": {
+                                    "type": {
+                                        "handleReference": {
+                                            "types": [
+                                                "DefinedTerm"
+                                            ]
+                                        }
+                                    }
+                                }
+                            },
+                            "value": {
+                                "title": "Value",
+                                "type": "number"
+                            },
+                            "unitText": {
+                                "title": "Unit Text",
+                                "type": "string"
+                            },
+                            "unitCode": {
+                                "title": "Unit Code",
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "variableMeasured": {
+                    "type": "array",
+                    "title": "Complex/Multidimensional Quantity",
+                    "uniqueItems": true,
+                    "items": {
+                        "title": "Complex/Multidimensional Quantity",
+                        "$ref": "#/definitions/variableMeasured"
+                    }
+                },
+                "parameterControlled": {
+                    "type": "array",
+                    "title": "Parameters Controlled",
+                    "uniqueItems": true,
+                    "items": {
+                        "title": "Parameter Controlled",
+                        "$ref": "#/definitions/variableMeasured"
+                    }
+                }
+            }
+        },
+        "Process": {
+            "type": "object",
+            "properties": {
+                "@type": {
+                    "type": "array",
+                    "default": [
+                        "HowTo",
+                        "mat:Process"
+                    ]
+                },
+                "text": {
+                    "title": "Process/Step Text",
+                    "type": "string",
+                    "format": "textarea"
+                },
+                "isBasedOn": {
+                    "type": "array",
+                    "title": "Process is based on",
+                    "uniqueItems": true,
+                    "items": {
+                        "type": "string",
+                        "title": "Process",
+                        "cordra": {
+                            "type": {
+                                "handleReference": {
+                                    "types": [
+                                        "ProcessProtocol",
+                                        "ProcessHistory"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "supply": {
+                    "type": "array",
+                    "title": "Supply/Starting Materials",
+                    "uniqueItems": true,
+                    "items": {
+                        "type": "object",
+                        "title": "Supply/Starting Material",
+                        "properties": {
+                            "@type": {
+                                "type": "array",
+                                "default": [
+                                    "CreativeWork",
+                                    "mat:Material"
+                                ]
+                            },
+                            "@id": {
+                                "type": "string",
+                                "cordra": {
+                                    "type": {
+                                        "handleReference": {
+                                            "types": [
+                                                "Material"
+                                            ]
+                                        }
+                                    }
+                                }
+                            },
+                            "materialExtent": {
+                                "$ref": "#/definitions/QuantitativeValue"
+                            }
+                        }
+                    }
+                },
+                "variableMeasured": {
+                    "type": "array",
+                    "title": "Variables Measured",
+                    "uniqueItems": true,
+                    "items": {
+                        "title": "Variable Measured",
+                        "$ref": "#/definitions/variableMeasured"
+                    }
+                },
+                "parameterControlled": {
+                    "type": "array",
+                    "title": "Parameters Controlled",
+                    "uniqueItems": true,
+                    "items": {
+                        "title": "Parameter Controlled",
+                        "$ref": "#/definitions/variableMeasured"
+                    }
+                },
+                "workExample": {
+                    "type": "array",
+                    "title": "Resulting Materials",
+                    "uniqueItems": true,
+                    "items": {
+                        "type": "string",
+                        "title": "Resulting Material",
+                        "cordra": {
+                            "type": {
+                                "handleReference": {
+                                    "types": [
+                                        "Material"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "measurementTechnique": {
+                    "$ref": "#/definitions/measurementTechnique"
+                },
+                "tool": {
+                    "type": "array",
+                    "title": "Tools used to perform the process",
+                    "uniqueItems": true,
+                    "items": {
+                        "type": "string",
+                        "title": "Tools used to perform the process",
+                        "cordra": {
+                            "type": {
+                                "handleReference": {
+                                    "types": [
+                                        "DefinedTerm",
+                                        "Instrument",
+                                        "SoftwareApplication",
+                                        "SoftwareSourceCode"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "estimatedCost": {
+                    "type": "object",
+                    "title": "MonetaryAmount",
+                    "properties": {
+                        "@type": {
+                            "type": "string",
+                            "default": "MonetaryAmount"
+                        },
+                        "currency": {
+                            "type": "string"
+                        },
+                        "value": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "performTime": {
+                    "type": "string"
+                },
+                "prepTime": {
+                    "type": "string"
+                },
+                "totalTime": {
+                    "type": "string"
+                },
+                "yield": {
+                    "$ref": "#/definitions/QuantitativeValue"
+                },
+                "position": {
+                    "title": "Step Number",
+                    "type": "number"
+                },
+                "step": {
+                    "type": "array",
+                    "title": "Process Steps",
+                    "uniqueItems": true,
+                    "items": {
+                        "title": "Process Step",
+                        "$ref": "#/definitions/Process"
+                    }
+                }
+            }
+        }
+    },
     "properties": {
+        "@context": {
+            "type": "array",
+            "default": [
+                "http://schema.org/",
+                {
+                    "mat": "https://pages.nist.gov/material-schema/",
+                    "measurementTechnique": "mat:measurementTechnique",
+                    "parameterControlled": "mat:parameterControlled",
+                    "variableMeasured": "mat:variableMeasured"
+                }
+            ]
+        },
+        "@type": {
+            "type": "array",
+            "default": [
+                "HowTo",
+                "mat:ProcessProtocol"
+            ]
+        },
         "@id": {
             "type": "string",
             "cordra": {
@@ -31,10 +395,7 @@
                         "title": "Identifier Value",
                         "type": "string"
                     }
-                },
-                "required": [
-                    "@type"
-                ]
+                }
             }
         },
         "name": {
@@ -60,19 +421,29 @@
             "type": "string",
             "title": "URL"
         },
-        "about": {
+        "image": {
             "type": "array",
-            "title": "Subjects",
-            "description": "This is for controlled vocabulary terms.",
+            "title": "Image URLs",
             "uniqueItems": true,
             "items": {
                 "type": "string",
-                "title": "Subject",
+                "title": "Image URL"
+            }
+        },
+        "about": {
+            "type": "array",
+            "title": "About",
+            "description": "This is for linking controlled vocabulary terms and parent projects.",
+            "uniqueItems": true,
+            "items": {
+                "type": "string",
+                "title": "Subject/Project",
                 "cordra": {
                     "type": {
                         "handleReference": {
                             "types": [
-                                "DefinedTerm"
+                                "DefinedTerm",
+                                "Project"
                             ]
                         }
                     }
@@ -225,26 +596,6 @@
                 }
             }
         },
-        "producer": {
-            "type": "array",
-            "title": "Producers",
-            "uniqueItems": true,
-            "items": {
-                "type": "string",
-                "title": "Producer",
-                "cordra": {
-                    "type": {
-                        "handleReference": {
-                            "types": [
-                                "User",
-                                "Person",
-                                "Organization"
-                            ]
-                        }
-                    }
-                }
-            }
-        },
         "provider": {
             "type": "array",
             "title": "Providers",
@@ -309,6 +660,15 @@
             "type": "string",
             "title": "License"
         },
+        "thumbnailUrl": {
+            "type": "array",
+            "title": "Thumbnail URLs",
+            "uniqueItems": true,
+            "items": {
+                "type": "string",
+                "title": "Thumbnail URL"
+            }
+        },
         "dateCreated": {
             "title": "Date Created",
             "type": "string"
@@ -339,13 +699,80 @@
                 }
             }
         },
-        "@context": {
+        "text": {
+            "title": "Process/Step Text",
             "type": "string",
-            "default": "http://schema.org/"
+            "format": "textarea"
         },
-        "@type": {
-            "type": "string",
-            "default": "HowTo"
+        "isBasedOn": {
+            "type": "array",
+            "title": "Process is based on",
+            "uniqueItems": true,
+            "items": {
+                "type": "string",
+                "title": "Process",
+                "cordra": {
+                    "type": {
+                        "handleReference": {
+                            "types": [
+                                "ProcessProtocol",
+                                "ProcessHistory"
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "supply": {
+            "type": "array",
+            "title": "Supply/Starting Materials",
+            "uniqueItems": true,
+            "items": {
+                "type": "object",
+                "title": "Supply/Starting Material",
+                "properties": {
+                    "@type": {
+                        "type": "array",
+                        "default": [
+                            "CreativeWork",
+                            "mat:Material"
+                        ]
+                    },
+                    "@id": {
+                        "type": "string",
+                        "cordra": {
+                            "type": {
+                                "handleReference": {
+                                    "types": [
+                                        "Material"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "materialExtent": {
+                        "$ref": "#/definitions/QuantitativeValue"
+                    }
+                }
+            }
+        },
+        "variableMeasured": {
+            "type": "array",
+            "title": "Variables Measured",
+            "uniqueItems": true,
+            "items": {
+                "title": "Variable Measured",
+                "$ref": "#/definitions/variableMeasured"
+            }
+        },
+        "parameterControlled": {
+            "type": "array",
+            "title": "Parameters Controlled",
+            "uniqueItems": true,
+            "items": {
+                "title": "Parameter Controlled",
+                "$ref": "#/definitions/variableMeasured"
+            }
         },
         "workExample": {
             "type": "array",
@@ -359,6 +786,30 @@
                         "handleReference": {
                             "types": [
                                 "Material"
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "measurementTechnique": {
+            "$ref": "#/definitions/measurementTechnique"
+        },
+        "tool": {
+            "type": "array",
+            "title": "Tools used to perform the process",
+            "uniqueItems": true,
+            "items": {
+                "type": "string",
+                "title": "Tools used to perform the process",
+                "cordra": {
+                    "type": {
+                        "handleReference": {
+                            "types": [
+                                "DefinedTerm",
+                                "Instrument",
+                                "SoftwareApplication",
+                                "SoftwareSourceCode"
                             ]
                         }
                     }
@@ -379,10 +830,7 @@
                 "value": {
                     "type": "number"
                 }
-            },
-            "required": [
-                "@type"
-            ]
+            }
         },
         "performTime": {
             "type": "string"
@@ -390,297 +838,24 @@
         "prepTime": {
             "type": "string"
         },
-        "step": {
-            "type": "array",
-            "title": "HowToSections",
-            "items": {
-                "type": "object",
-                "title": "HowToSection",
-                "properties": {
-                    "@type": {
-                        "type": "string",
-                        "default": "HowToSection"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "position": {
-                        "type": "number"
-                    },
-                    "description": {
-                        "type": "string",
-                        "title": "Description",
-                        "format": "textarea"
-                    },
-                    "about": {
-                        "type": "array",
-                        "title": "Subjects",
-                        "description": "This is for controlled vocabulary terms.",
-                        "uniqueItems": true,
-                        "items": {
-                            "type": "string",
-                            "title": "Subject",
-                            "cordra": {
-                                "type": {
-                                    "handleReference": {
-                                        "types": [
-                                            "DefinedTerm"
-                                        ]
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "itemListElement": {
-                        "type": "array",
-                        "title": "HowToSteps",
-                        "items": {
-                            "type": "object",
-                            "title": "HowToStep",
-                            "properties": {
-                                "@type": {
-                                    "type": "string",
-                                    "default": "HowToStep"
-                                },
-                                "name": {
-                                    "type": "string"
-                                },
-                                "position": {
-                                    "type": "number"
-                                },
-                                "text": {
-                                    "type": "string",
-                                    "format": "textarea"
-                                },
-                                "about": {
-                                    "type": "array",
-                                    "title": "Subjects",
-                                    "description": "This is for controlled vocabulary terms.",
-                                    "uniqueItems": true,
-                                    "items": {
-                                        "type": "string",
-                                        "title": "Subject",
-                                        "cordra": {
-                                            "type": {
-                                                "handleReference": {
-                                                    "types": [
-                                                        "DefinedTerm"
-                                                    ]
-                                                }
-                                            }
-                                        }
-                                    }
-                                },
-                                "hasPart": {
-                                    "type": "object",
-                                    "title": "Detailed Processing Information",
-                                    "properties": {
-                                        "@type": {
-                                            "type": "string",
-                                            "default": "Dataset"
-                                        },
-                                        "material": {
-                                            "type": "array",
-                                            "title": "Materials",
-                                            "description": "This field is for linking to any substance (e.g., sample, specimen, material, chemical, etc.), or a specific sup-sample (e.g., location on a larger artifact, sub-portion of a larger artifact, item within a collection of specimens, etc.).",
-                                            "uniqueItems": true,
-                                            "items": {
-                                                "type": "string",
-                                                "title": "Material",
-                                                "cordra": {
-                                                    "type": {
-                                                        "handleReference": {
-                                                            "types": [
-                                                                "Material"
-                                                            ]
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        },
-                                        "materialExtent": {
-                                            "type": "object",
-                                            "properties": {
-                                                "@type": {
-                                                    "type": "string",
-                                                    "default": "QuantitativeValue"
-                                                },
-                                                "name": {
-                                                    "type": "string",
-                                                    "title": "Name"
-                                                },
-                                                "value": {
-                                                    "title": "Value",
-                                                    "type": "number"
-                                                },
-                                                "unitText": {
-                                                    "title": "Unit Text",
-                                                    "type": "string"
-                                                },
-                                                "unitCode": {
-                                                    "title": "Unit Code",
-                                                    "type": "string"
-                                                }
-                                            }
-                                        },
-                                        "measurementTechnique": {
-                                            "type": "array",
-                                            "title": "Synthesis/Measurement Techniques",
-                                            "uniqueItems": true,
-                                            "items": {
-                                                "type": "string",
-                                                "title": "Synthesis/Measurement Technique",
-                                                "cordra": {
-                                                    "type": {
-                                                        "handleReference": {
-                                                            "types": [
-                                                                "DefinedTerm",
-                                                                "Instrument",
-                                                                "SoftwareApplication",
-                                                                "SoftwareSourceCode"
-                                                            ]
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        },
-                                        "variableMeasured": {
-                                            "type": "array",
-                                            "title": "Variables Measured",
-                                            "uniqueItems": true,
-                                            "items": {
-                                                "type": "object",
-                                                "properties": {
-                                                    "@type": {
-                                                        "type": "string",
-                                                        "default": "PropertyValue"
-                                                    },
-                                                    "name": {
-                                                        "type": "string",
-                                                        "title": "Name"
-                                                    },
-                                                    "propertyID": {
-                                                        "title": "Property ID",
-                                                        "type": "string",
-                                                        "cordra": {
-                                                            "type": {
-                                                                "handleReference": {
-                                                                    "types": [
-                                                                        "DefinedTerm"
-                                                                    ]
-                                                                }
-                                                            }
-                                                        }
-                                                    },
-                                                    "value": {
-                                                        "title": "Value",
-                                                        "type": "number"
-                                                    },
-                                                    "unitText": {
-                                                        "title": "Unit Text",
-                                                        "type": "string"
-                                                    },
-                                                    "unitCode": {
-                                                        "title": "Unit Code",
-                                                        "type": "string"
-                                                    },
-                                                    "valueReference": {
-                                                        "type": "array",
-                                                        "title": "Reference Values",
-                                                        "uniqueItems": true,
-                                                        "items": {
-                                                            "type": "object",
-                                                            "title": "Reference Value",
-                                                            "properties": {
-                                                                "@type": {
-                                                                    "type": "string",
-                                                                    "default": "PropertyValue"
-                                                                },
-                                                                "name": {
-                                                                    "type": "string",
-                                                                    "title": "Name"
-                                                                },
-                                                                "propertyID": {
-                                                                    "title": "Property ID/Name",
-                                                                    "type": "string",
-                                                                    "cordra": {
-                                                                        "type": {
-                                                                            "handleReference": {
-                                                                                "types": [
-                                                                                    "DefinedTerm"
-                                                                                ]
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                },
-                                                                "value": {
-                                                                    "title": "Value",
-                                                                    "type": "number"
-                                                                },
-                                                                "unitText": {
-                                                                    "title": "Unit Text",
-                                                                    "type": "string"
-                                                                },
-                                                                "unitCode": {
-                                                                    "title": "Unit Code",
-                                                                    "type": "string"
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    },
-                                    "required": [
-                                        "@type"
-                                    ]
-                                }
-                            },
-                            "required": [
-                                "@type",
-                                "position"
-                            ]
-                        }
-                    }
-                },
-                "required": [
-                    "@type",
-                    "position",
-                    "itemListElement"
-                ]
-            }
-        },
         "totalTime": {
             "type": "string"
         },
         "yield": {
-            "type": "object",
-            "properties": {
-                "@type": {
-                    "type": "string",
-                    "default": "QuantitativeValue"
-                },
-                "name": {
-                    "type": "string",
-                    "title": "Name"
-                },
-                "value": {
-                    "title": "Value",
-                    "type": "number"
-                },
-                "unitText": {
-                    "title": "Unit Text",
-                    "type": "string"
-                },
-                "unitCode": {
-                    "title": "Unit Code",
-                    "type": "string"
-                }
+            "$ref": "#/definitions/QuantitativeValue"
+        },
+        "position": {
+            "title": "Step Number",
+            "type": "number"
+        },
+        "step": {
+            "type": "array",
+            "title": "Process Steps",
+            "uniqueItems": true,
+            "items": {
+                "title": "Process Step",
+                "$ref": "#/definitions/Process"
             }
         }
-    },
-    "required": [
-        "@type"
-    ]
+    }
 }

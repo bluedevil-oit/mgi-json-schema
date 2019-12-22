@@ -3,7 +3,28 @@
     "type": "object",
     "title": "Citation",
     "description": "This schema is for describing a Citation in Cordra",
+    "required": [
+        "@id",
+        "@context",
+        "@type"
+    ],
     "properties": {
+        "@context": {
+            "type": "array",
+            "default": [
+                "http://schema.org/",
+                {
+                    "mat": "https://pages.nist.gov/material-schema/"
+                }
+            ]
+        },
+        "@type": {
+            "type": "array",
+            "default": [
+                "CreativeWork",
+                "mat:Citation"
+            ]
+        },
         "@id": {
             "type": "string",
             "cordra": {
@@ -31,10 +52,7 @@
                         "title": "Identifier Value",
                         "type": "string"
                     }
-                },
-                "required": [
-                    "@type"
-                ]
+                }
             }
         },
         "name": {
@@ -60,19 +78,29 @@
             "type": "string",
             "title": "URL"
         },
-        "about": {
+        "image": {
             "type": "array",
-            "title": "Subjects",
-            "description": "This is for controlled vocabulary terms.",
+            "title": "Image URLs",
             "uniqueItems": true,
             "items": {
                 "type": "string",
-                "title": "Subject",
+                "title": "Image URL"
+            }
+        },
+        "about": {
+            "type": "array",
+            "title": "About",
+            "description": "This is for linking controlled vocabulary terms and parent projects.",
+            "uniqueItems": true,
+            "items": {
+                "type": "string",
+                "title": "Subject/Project",
                 "cordra": {
                     "type": {
                         "handleReference": {
                             "types": [
-                                "DefinedTerm"
+                                "DefinedTerm",
+                                "Project"
                             ]
                         }
                     }
@@ -225,26 +253,6 @@
                 }
             }
         },
-        "producer": {
-            "type": "array",
-            "title": "Producers",
-            "uniqueItems": true,
-            "items": {
-                "type": "string",
-                "title": "Producer",
-                "cordra": {
-                    "type": {
-                        "handleReference": {
-                            "types": [
-                                "User",
-                                "Person",
-                                "Organization"
-                            ]
-                        }
-                    }
-                }
-            }
-        },
         "provider": {
             "type": "array",
             "title": "Providers",
@@ -309,6 +317,15 @@
             "type": "string",
             "title": "License"
         },
+        "thumbnailUrl": {
+            "type": "array",
+            "title": "Thumbnail URLs",
+            "uniqueItems": true,
+            "items": {
+                "type": "string",
+                "title": "Thumbnail URL"
+            }
+        },
         "dateCreated": {
             "title": "Date Created",
             "type": "string"
@@ -339,6 +356,5 @@
                 }
             }
         }
-    },
-    "required": []
+    }
 }

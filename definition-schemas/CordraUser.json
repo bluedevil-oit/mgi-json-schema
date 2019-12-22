@@ -10,8 +10,7 @@
                 "title": "Username",
                 "cordra": {
                     "preview": {
-                        "showInPreview": true,
-                        "isPrimary": true
+                        "showInPreview": true
                     },
                     "auth": "username"
                 }
@@ -28,11 +27,6 @@
                 "description": "If true a new password must be set on next authentication.",
                 "cordra": {"auth": "requirePasswordChange"}
             }
-        },
-        "required": [
-            "@id",
-            "username",
-            "password"
-        ]
+        }
     }}
 }

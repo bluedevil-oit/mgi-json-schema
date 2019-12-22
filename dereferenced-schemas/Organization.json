@@ -3,7 +3,20 @@
     "type": "object",
     "title": "Organization",
     "description": "This schema is for describing an Organization in Cordra.",
+    "required": [
+        "@id",
+        "@context",
+        "@type"
+    ],
     "properties": {
+        "@context": {
+            "type": "string",
+            "default": "http://schema.org/"
+        },
+        "@type": {
+            "type": "string",
+            "default": "Organization"
+        },
         "@id": {
             "type": "string",
             "cordra": {
@@ -31,10 +44,7 @@
                         "title": "Identifier Value",
                         "type": "string"
                     }
-                },
-                "required": [
-                    "@type"
-                ]
+                }
             }
         },
         "name": {
@@ -60,13 +70,14 @@
             "type": "string",
             "title": "URL"
         },
-        "@context": {
-            "type": "string",
-            "default": "http://schema.org/"
-        },
-        "@type": {
-            "type": "string",
-            "default": "Organization"
+        "image": {
+            "type": "array",
+            "title": "Image URLs",
+            "uniqueItems": true,
+            "items": {
+                "type": "string",
+                "title": "Image URL"
+            }
         },
         "address": {
             "type": "string",
@@ -174,8 +185,5 @@
                 }
             }
         }
-    },
-    "required": [
-        "@type"
-    ]
+    }
 }

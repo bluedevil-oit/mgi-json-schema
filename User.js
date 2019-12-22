@@ -1,3 +1,4 @@
+var schema = require('/cordra/schemas/User.schema.json');
 exports.beforeSchemaValidation = beforeSchemaValidation;
 
 function beforeSchemaValidation(obj, context) {
@@ -18,5 +19,7 @@ function beforeSchemaValidationLegacy(obj, context) {
             throw "Password is too short. Min length 8 characters";
         }
     }
+    obj["@context"] = schema["properties"]["@context"]["default"];
+    obj["@type"] = schema["properties"]["@type"]["default"];
     return obj;
 }

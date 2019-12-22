@@ -5,23 +5,26 @@
     "definitions": {"MaterialProperty": {
         "type": "object",
         "properties": {
-            "@context": {
-                "type": "string",
-                "default": "http://schema.org/"
-            },
-            "@type": {
-                "type": "string",
-                "default": "Dataset"
-            },
-            "subjectOf": {"$ref": "subjectOfProject.json#/definitions/subjectOfProject"},
             "includedInDataCatalog": {"$ref": "includedInDataCatalog.json#/definitions/includedInDataCatalog"},
             "material": {"$ref": "materialLinked.json#/definitions/materialLinked"},
             "materialExtent": {"$ref": "QuantitativeValue.json#/definitions/QuantitativeValue"},
             "measurementTechnique": {"$ref": "measurementTechnique.json#/definitions/measurementTechnique"},
-            "variableMeasured": {"$ref": "variableMeasured.json#/definitions/variableMeasured"},
+            "variableMeasured": {
+                "title": "Material Property",
+                "$ref": "variableMeasured.json#/definitions/variableMeasured"
+            },
+            "parameterControlled": {
+                "type": "array",
+                "title": "Parameters Controlled",
+                "uniqueItems": true,
+                "items": {
+                    "title": "Parameter Controlled",
+                    "$ref": "variableMeasured.json#/definitions/variableMeasured"
+                }
+            },
             "hasPart": {"$ref": "datasetLinked.json#/definitions/hasPart"},
-            "isPartOf": {"$ref": "datasetLinked.json#/definitions/isPartOf"}
-        },
-        "required": ["@type"]
+            "isPartOf": {"$ref": "datasetLinked.json#/definitions/isPartOf"},
+            "isBasedOn": {"$ref": "datasetLinked.json#/definitions/isBasedOn"}
+        }
     }}
 }

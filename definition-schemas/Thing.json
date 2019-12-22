@@ -24,8 +24,7 @@
                             "title": "Identifier Value",
                             "type": "string"
                         }
-                    },
-                    "required": ["@type"]
+                    }
                 }
             },
             "name": {
@@ -48,6 +47,15 @@
             "url": {
                 "type": "string",
                 "title": "URL"
+            },
+            "image": {
+                "type": "array",
+                "title": "Image URLs",
+                "uniqueItems": true,
+                "items": {
+                    "type": "string",
+                    "title": "Image URL"
+                }
             }
         }
     }}

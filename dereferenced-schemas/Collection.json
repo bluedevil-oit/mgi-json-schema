@@ -3,7 +3,45 @@
     "type": "object",
     "title": "Collection",
     "description": "This schema is for creating a collection (i.e., a folder), which can contain of files, datasets, collections, samples, instruments, etc.",
+    "required": [
+        "@id",
+        "@context",
+        "@type"
+    ],
+    "definitions": {
+        "subjectOf": {
+            "type": "array",
+            "title": "Linked Materials, Datasets, etc.",
+            "uniqueItems": true,
+            "items": {
+                "type": "string",
+                "title": "Linked Material, Dataset, etc.",
+                "cordra": {
+                    "type": {
+                        "handleReference": {
+                            "types": [
+                                "File",
+                                "TabularDataPackage",
+                                "MaterialProperty",
+                                "Dataset",
+                                "Collection",
+                                "Material"
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    },
     "properties": {
+        "@context": {
+            "type": "string",
+            "default": "http://schema.org/"
+        },
+        "@type": {
+            "type": "string",
+            "default": "Collection"
+        },
         "@id": {
             "type": "string",
             "cordra": {
@@ -31,10 +69,7 @@
                         "title": "Identifier Value",
                         "type": "string"
                     }
-                },
-                "required": [
-                    "@type"
-                ]
+                }
             }
         },
         "name": {
@@ -60,19 +95,29 @@
             "type": "string",
             "title": "URL"
         },
-        "about": {
+        "image": {
             "type": "array",
-            "title": "Subjects",
-            "description": "This is for controlled vocabulary terms.",
+            "title": "Image URLs",
             "uniqueItems": true,
             "items": {
                 "type": "string",
-                "title": "Subject",
+                "title": "Image URL"
+            }
+        },
+        "about": {
+            "type": "array",
+            "title": "About",
+            "description": "This is for linking controlled vocabulary terms and parent projects.",
+            "uniqueItems": true,
+            "items": {
+                "type": "string",
+                "title": "Subject/Project",
                 "cordra": {
                     "type": {
                         "handleReference": {
                             "types": [
-                                "DefinedTerm"
+                                "DefinedTerm",
+                                "Project"
                             ]
                         }
                     }
@@ -225,26 +270,6 @@
                 }
             }
         },
-        "producer": {
-            "type": "array",
-            "title": "Producers",
-            "uniqueItems": true,
-            "items": {
-                "type": "string",
-                "title": "Producer",
-                "cordra": {
-                    "type": {
-                        "handleReference": {
-                            "types": [
-                                "User",
-                                "Person",
-                                "Organization"
-                            ]
-                        }
-                    }
-                }
-            }
-        },
         "provider": {
             "type": "array",
             "title": "Providers",
@@ -309,6 +334,15 @@
             "type": "string",
             "title": "License"
         },
+        "thumbnailUrl": {
+            "type": "array",
+            "title": "Thumbnail URLs",
+            "uniqueItems": true,
+            "items": {
+                "type": "string",
+                "title": "Thumbnail URL"
+            }
+        },
         "dateCreated": {
             "title": "Date Created",
             "type": "string"
@@ -339,31 +373,8 @@
                 }
             }
         },
-        "@context": {
-            "type": "string",
-            "default": "http://schema.org/"
-        },
-        "@type": {
-            "type": "string",
-            "default": "Collection"
-        },
         "subjectOf": {
-            "type": "array",
-            "title": "Parent Projects",
-            "uniqueItems": true,
-            "items": {
-                "type": "string",
-                "title": "Parent Project",
-                "cordra": {
-                    "type": {
-                        "handleReference": {
-                            "types": [
-                                "Project"
-                            ]
-                        }
-                    }
-                }
-            }
+            "$ref": "#/definitions/subjectOf"
         },
         "hasPart": {
             "type": "array",
@@ -408,8 +419,5 @@
                 }
             }
         }
-    },
-    "required": [
-        "@type"
-    ]
+    }
 }

@@ -5,14 +5,6 @@
     "definitions": {"Person": {
         "type": "object",
         "properties": {
-            "@context": {
-                "type": "string",
-                "default": "http://schema.org/"
-            },
-            "@type": {
-                "type": "string",
-                "default": "Person"
-            },
             "familyName": {
                 "type": "string",
                 "title": "Family Name"
@@ -29,8 +21,7 @@
                 "type": "string",
                 "title": "E-Mail Address",
                 "cordra": {"preview": {
-                    "showInPreview": true,
-                    "isPrimary": true
+                    "showInPreview": true
                 }}
             },
             "telephone": {
@@ -52,7 +43,6 @@
                     "cordra": {"type": {"handleReference": {"types": ["Organization"]}}}
                 }
             }
-        },
-        "required": ["@type"]
+        }
     }}
 }

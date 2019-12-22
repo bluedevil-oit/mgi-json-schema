@@ -5,15 +5,6 @@
     "definitions": {"File": {
         "type": "object",
         "properties": {
-            "@context": {
-                "type": "string",
-                "default": "http://schema.org/"
-            },
-            "@type": {
-                "type": "string",
-                "default": "Dataset"
-            },
-            "subjectOf": {"$ref": "subjectOfProject.json#/definitions/subjectOfProject"},
             "measurementTechnique": {"$ref": "measurementTechnique.json#/definitions/measurementTechnique"},
             "variableMeasured": {
                 "type": "array",
@@ -21,6 +12,15 @@
                 "uniqueItems": true,
                 "items": {
                     "title": "Variable Measured",
+                    "$ref": "variableMeasured.json#/definitions/variableMeasured"
+                }
+            },
+            "parameterControlled": {
+                "type": "array",
+                "title": "Parameters Controlled",
+                "uniqueItems": true,
+                "items": {
+                    "title": "Parameter Controlled",
                     "$ref": "variableMeasured.json#/definitions/variableMeasured"
                 }
             },
@@ -33,8 +33,8 @@
             },
             "distribution": {"$ref": "DataDownload.json#/definitions/DataDownload"},
             "hasPart": {"$ref": "datasetLinked.json#/definitions/hasPart"},
-            "isPartOf": {"$ref": "datasetLinked.json#/definitions/isPartOf"}
-        },
-        "required": ["@type"]
+            "isPartOf": {"$ref": "datasetLinked.json#/definitions/isPartOf"},
+            "isBasedOn": {"$ref": "datasetLinked.json#/definitions/isBasedOn"}
+        }
     }}
 }

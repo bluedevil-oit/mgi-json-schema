@@ -3,7 +3,45 @@
     "type": "object",
     "title": "Project",
     "description": "This schema is for describing a Project in Cordra.",
+    "required": [
+        "@id",
+        "@context",
+        "@type"
+    ],
+    "definitions": {
+        "subjectOf": {
+            "type": "array",
+            "title": "Linked Materials, Datasets, etc.",
+            "uniqueItems": true,
+            "items": {
+                "type": "string",
+                "title": "Linked Material, Dataset, etc.",
+                "cordra": {
+                    "type": {
+                        "handleReference": {
+                            "types": [
+                                "File",
+                                "TabularDataPackage",
+                                "MaterialProperty",
+                                "Dataset",
+                                "Collection",
+                                "Material"
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    },
     "properties": {
+        "@context": {
+            "type": "string",
+            "default": "http://schema.org/"
+        },
+        "@type": {
+            "type": "string",
+            "default": "Project"
+        },
         "@id": {
             "type": "string",
             "cordra": {
@@ -31,10 +69,7 @@
                         "title": "Identifier Value",
                         "type": "string"
                     }
-                },
-                "required": [
-                    "@type"
-                ]
+                }
             }
         },
         "name": {
@@ -60,13 +95,14 @@
             "type": "string",
             "title": "URL"
         },
-        "@context": {
-            "type": "string",
-            "default": "http://schema.org/"
-        },
-        "@type": {
-            "type": "string",
-            "default": "Project"
+        "image": {
+            "type": "array",
+            "title": "Image URLs",
+            "uniqueItems": true,
+            "items": {
+                "type": "string",
+                "title": "Image URL"
+            }
         },
         "about": {
             "type": "array",
@@ -203,31 +239,7 @@
             }
         },
         "subjectOf": {
-            "type": "array",
-            "title": "Project Assets",
-            "uniqueItems": true,
-            "items": {
-                "type": "string",
-                "title": "Project Asset",
-                "cordra": {
-                    "type": {
-                        "handleReference": {
-                            "types": [
-                                "Collection",
-                                "File",
-                                "TabularDataPackage",
-                                "MaterialProperty",
-                                "Material",
-                                "Instrument",
-                                "Dataset"
-                            ]
-                        }
-                    }
-                }
-            }
+            "$ref": "#/definitions/subjectOf"
         }
-    },
-    "required": [
-        "@type"
-    ]
+    }
 }
